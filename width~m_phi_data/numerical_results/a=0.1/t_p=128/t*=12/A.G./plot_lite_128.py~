@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+sol_dir = 'fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+
+fig_size = plt.rcParams["figure.figsize"]
+fig_size[0] = 15
+fig_size[1] = 9
+num_plots = 7
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, num_plots)])
+
+for i in range(0,num_plots):
+    t = 20 + (20 * i)
+    plt.plot(x_array, sol[(1+ (12 * i)),:])
+#    data = np.zeros((nx, 2))
+ #   for k in range(0,nx):
+  #   data[k][0] = x_array[k]
+   # for j in range(0,nx):
+    # data[j][1] = sol[(1+ (12 * i)),j]
+#    np.savetxt("field_t=" + str(t) + ".txt", data)
+
+plt.rcParams["figure.figsize"] = fig_size
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([-130,130,0,3])
+plt.title(r'Asymmetric Gaussian, $\alpha_{\phi}=0.1$, $m_{\phi}t_{p}=128$, $m_{\phi}t_{*}=10.00$', fontsize=14.1, fontweight='bold')
+plt.xlabel(r'$m_{\phi}x$', fontsize=14)
+plt.ylabel(r'$\phi/\phi_{0}$', fontsize=14)
+plt.legend(['t=20', 't=40', 't=60', 't=80', 't=100', 't=120', 't=140'], loc='upper right')
+plt.savefig('Asymmetric_Gaussian_field_20-140.png')
+
+plt.close()
+

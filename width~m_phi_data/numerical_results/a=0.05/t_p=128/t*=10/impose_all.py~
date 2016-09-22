@@ -1,0 +1,1123 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def V(x):
+    a = 0.05
+    return a * x * x
+
+def energy(s):
+    def spectrum(s):
+        phi = sol[s,:]
+        N = len(phi)
+        return 2.0 / N * np.real(np.fft.rfft(phi))
+    delta_t = t_array[s-1] - t_array[s+1]
+    sp = spectrum(s)
+    spb = spectrum(s-1)
+    spa = spectrum(s+1)
+    L = len(sp)
+    def spectrum_dot(s):
+        sD = np.zeros(L)
+        for j in range(0,L):
+         sD[j] = (spa[j] - spb[j]) / delta_t
+        return sD
+    sd = spectrum_dot(s)
+    E = np.zeros(L)
+    for i in range(0,L):
+     E[i] = (sd[i]*sd[i]/2) + (sp[i]*sp[i]*(i*math.pi/128)*(i*math.pi/128)/2) + V(sp[i])/2
+    return E
+
+fig_size = plt.rcParams["figure.figsize"]
+fig_size[0] = 15
+fig_size[1] = 9
+num_plots = 4
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)',  r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=130$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=130_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=140$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=140_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=150$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=150_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=160$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=160_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=170$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=170_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=180$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=180_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=190$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=190_t*=10.00_logscale_2.png')
+plt.close()
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, 9)])
+
+sol_dir = 'C.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.1/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'C.S.G.2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+ 
+sol_dir = 'C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'G/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A.G./build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 'A2/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+data1 = np.genfromtxt("a=0.05_ts=10_tp=128.txt", skip_header=3)
+line = plt.plot(data1[:,0], data1[:,1])
+#plt.setp(line, linestyle='--')
+plt.setp(line, linewidth=2)
+
+plt.legend([r'Cosine-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cosine-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Cos.Sq.-Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Cubic Function($m_{\phi}t_{*}=10.00$)', r'tanh($m_{\phi}t_{*}=10.00$)', r'Gaussian($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-1($m_{\phi}t_{*}=10.00$)', r'Asymmetric Gaussian-2($m_{\phi}t_{*}=10.00$)', r'Analytic($m_{\phi}t_{*}=10.00$, $t=\sqrt{t_{*}^{2}+x_{p}^{2}}$)'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.28])
+plt.title(r'$\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=128$, $m_{\phi}t=200$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('a=0.05_tp=128_t=200_t*=10.00_logscale_2.png')
+plt.close()
