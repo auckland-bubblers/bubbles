@@ -1,0 +1,36 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+sol_dir = 'fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((202, nx))
+
+
+num_plots = 7
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, num_plots)])
+
+for i in range(0,num_plots):
+    t = 20 + (40 * i)
+    plt.plot(x_array, sol[(1+ (24 * i)),:])
+    data = np.zeros((nx, 2))
+    for k in range(0,nx):
+     data[k][0] = x_array[k]
+    for j in range(0,nx):
+     data[j][1] = sol[(1+ (24 * i)),j]
+    np.savetxt("field_t=" + str(t) + ".txt", data)
+
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([-130,130,0,3])
+plt.title(r'tanh, $\alpha_{\phi}=0.05$, $t_{p}/m_{\phi}=128$, $t_{*}=4.70$', fontsize=14.1, fontweight='bold')
+plt.ylabel(r'$x/m_{\phi}$', fontsize=14)
+plt.xlabel(r'$\phi/\phi_{0}$', fontsize=14)
+plt.legend(['t=20', 't=60', 't=100', 't=140', 't=180', 't=200', 't=240'], loc='upper right')
+plt.savefig('tanh_field_20-240.png')
+
+plt.close()
+

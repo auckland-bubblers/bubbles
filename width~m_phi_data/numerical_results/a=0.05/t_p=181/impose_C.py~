@@ -1,0 +1,463 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def V(x):
+    a = 0.05
+    return a * x * x
+
+def spectrum(s):
+        phi = sol[s,:]
+        N = len(phi)
+        return 2.0 / N * np.real(np.fft.rfft(phi))
+def sine(s):
+        phi = sol[s,:]
+        N = len(phi)
+        return 2.0 / N * np.imag(np.fft.rfft(phi))
+
+def energy(s):
+    delta_t = t_array[s-1] - t_array[s+1]
+    spc = spectrum(s)
+    sps = sine(s)
+    sps[0] = 0
+    spsa = sine(s+1)
+    spsb = sine(s-1)
+    sp = spectrum(s)
+    sp[0] = sp[0] / (2)**0.5
+    spb = spectrum(s-1)
+    spb[0] = sp[0] / (2)**0.5
+    spa = spectrum(s+1)
+    spa[0] = sp[0] / (2)**0.5
+    L = len(sp)
+    def spectrum_dot(s):
+        sD = np.zeros(L)
+        for j in range(1,L):
+         sD[j] = (spa[j] - spb[j]) / delta_t
+        return sD
+    def s_spectrum_dot(s):
+        sD = np.zeros(L)
+        for j in range(1,L):
+         sD[j] = (spsa[j] - spsb[j]) / delta_t
+        return sD
+    sd = spectrum_dot(s)
+    sds = s_spectrum_dot(s)
+    E = np.zeros(L)
+    for i in range(0,L):
+     E[i] = (sd[i]*sd[i]/4) + (sp[i]*sp[i]*(i*math.pi/128)*(i*math.pi/128)/4) + (sds[i]*sds[i]/4) + (sps[i]*sps[i]*(i*math.pi/128)*(i*math.pi/128)/4) #+ V(sp[i])/2 +  V(sps[i])/2 + (0.05 / L) - (0.05 * spc[0] / L) # - (1/spc[0]) * V(spc[i]) 
+    return E
+
+
+fig_size = plt.rcParams["figure.figsize"]
+fig_size[0] = 15
+fig_size[1] = 9
+num_plots = 3
+
+colormap = plt.cm.gist_rainbow
+plt.gca().set_color_cycle([colormap(i) for i in np.linspace(0, 0.9, num_plots)])
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(67)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=184$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=184_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(73)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=198$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=198_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(79)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=212$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=212_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(85)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=226$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=226_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(91)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=240$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=240_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(97)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=255$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=255_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(103)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=269$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=269_logscale_2.png')
+plt.close()
+
+
+sol_dir = 't*=10/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=12/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+sol_dir = 't*=14/C/build/fs_sol_1d'
+t_array = np.fromfile('%s/t.dat' % sol_dir, dtype='f8')
+time_steps = len(t_array)
+x_array = np.fromfile('%s/x.dat' % sol_dir, dtype='f8')
+nx = len(x_array)
+sol = np.fromfile('%s/sol.dat' % sol_dir, dtype='f8').reshape((112, nx))
+f_l = energy(109)
+NX = len(f_l)
+F_l = np.zeros(NX)
+for k in range(0,NX):
+ F_l[k] = k * f_l[k]
+plt.plot(F_l[0:NX])
+
+plt.legend([r'$m_{\phi}t_{*}=10.00$', r'$m_{\phi}t_{*}=12.00$', r'$m_{\phi}t_{*}=14.00$'], loc='upper right')
+plt.rcParams["figure.figsize"] = fig_size
+plt.xscale('log')
+plt.axhline(0,color='black',linewidth=0.6)
+plt.axis([1,10000,0,0.20])
+plt.title(r'Asymmetric Gaussian-1, $\alpha_{\phi}=0.05$, $m_{\phi}t_{p}=181$, $m_{\phi}t=283$', fontsize=17, fontweight='bold')
+plt.ylabel(r'$(m_{\phi}x_p/{\pi})k\cdot\epsilon (k)$', fontsize=14)
+plt.xlabel(r'$(m_{\phi}x_p/{\pi})k$', fontsize=14)
+plt.savefig('Asymmetric_Gaussian_1_a=0.05_tp=181_t=283_logscale_2.png')
+plt.close()
